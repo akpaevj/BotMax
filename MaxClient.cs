@@ -57,11 +57,12 @@ public class MaxClient(string token)
         await HttpClient.PostMessage(request, cancellationToken);
     }
 
-    public async Task EditMessage(string mid, string text, AttachmentRequest[]? attachments = null, CancellationToken cancellationToken = default)
+    public async Task EditMessage(string mid, string text, TextFormat? format = null, AttachmentRequest[]? attachments = null, CancellationToken cancellationToken = default)
     {
         var body = new EditMessage()
         {
-            Attachments = attachments
+            Attachments = attachments,
+            Format = format
         };
 
         var request = new EditMessageRequest(mid, body);
@@ -103,12 +104,13 @@ public class MaxClient(string token)
         return response.Updates;
     }
 
-    public async Task AnswerCallback(string callbackId, string text, AttachmentRequest[]? attachments = null, CancellationToken cancellationToken = default)
+    public async Task AnswerCallback(string callbackId, string text, TextFormat? format = null, AttachmentRequest[]? attachments = null, CancellationToken cancellationToken = default)
     {
         var messageBody = new NewMessageBody
         {
             Text = text,
-            Attachments = attachments
+            Attachments = attachments,
+            Format = format
         };
 
         var answer = new Answer()
